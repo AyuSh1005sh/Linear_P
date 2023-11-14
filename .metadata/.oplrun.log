@@ -1,0 +1,24 @@
+!SESSION 2023-11-14 04:40:58.857 -----------------------------------------------
+eclipse.buildId=unknown
+java.fullversion=11.0.13+8
+JRE 11 Windows 10 amd64-64-Bit Compressed References 20211022_218 (JIT enabled, AOT enabled)
+OpenJ9   - e1e72c497
+OMR      - 299b6a2d2
+JCL      - 2d83aa3b76 based on jdk-11.0.13+8
+BootLoader constants: OS=win32, ARCH=x86_64, WS=win32, NL=en_IN
+Command-line arguments:  -clean -nl en_IN -configuration D:\CPLEX\workplace\.metadata\workspace_oplrun
+
+!ENTRY ilog.odms.ide.opllang.remote 1 0 2023-11-14 04:40:58.858
+!MESSAGE Run pr1 in D:/CPLEX/workplace/p1
+!SESSION 2023-11-14 06:36:24.019 -----------------------------------------------
+eclipse.buildId=unknown
+java.fullversion=11.0.13+8
+JRE 11 Windows 10 amd64-64-Bit Compressed References 20211022_218 (JIT enabled, AOT enabled)
+OpenJ9   - e1e72c497
+OMR      - 299b6a2d2
+JCL      - 2d83aa3b76 based on jdk-11.0.13+8
+BootLoader constants: OS=win32, ARCH=x86_64, WS=win32, NL=en_IN
+Command-line arguments:  -clean -nl en_IN -configuration D:\CPLEX\workplace\.metadata\workspace_oplrun
+
+!ENTRY ilog.odms.ide.opllang.remote 1 0 2023-11-14 06:36:24.020
+!MESSAGE Run pr2 in D:/CPLEX/workplace/p2
