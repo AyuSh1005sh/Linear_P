@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="ASCII"?><project>
+    	
+    <version>1.0</version>
+    	
+    <configs>
+        		
+        <config default="true" name="Configuration1" category="opl">
+            			
+            <ref name="dikjstra.mod" type="model">
+			</ref>
+            		
+        </config>
+        		
+        <config default="false" name="Configuration2" category="opl">
+		</config>
+        	
+    </configs>
+    	
+
+</project>
