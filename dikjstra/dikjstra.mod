@@ -19,7 +19,7 @@ int en=8; // end
 //dvar int obj;  distance
 dvar boolean x[edges]; // do we use that edge 
 
-minimize sum(e in edges)
+maximize sum(e in edges)
 x[e]*e.weight;
 
 
@@ -27,9 +27,9 @@ subject to
 {
 
 // governing inflow and outflow of edges
-forall(i in nodes: i != st && i != en)
+forall(i in nodes: i != st && i != en){
     sum(e in edges: e.o == i) x[e] == sum(e in edges: e.d == i) x[e];
-    
+  }    
 sum(e in edges: e.o == st) x[e] == 1;
 sum(e in edges: e.d == en) x[e] == 1;
 }

@@ -84,3 +84,63 @@ Command-line arguments:  -clean -nl en_IN -configuration D:\CPLEX\workplace\.met
 
 !ENTRY ilog.odms.ide.opllang.remote 1 0 2023-11-15 22:22:23.484
 !MESSAGE Run Configuration2 in D:/CPLEX/workplace/dikjstra
+!SESSION 2023-11-15 22:52:30.057 -----------------------------------------------
+eclipse.buildId=unknown
+java.fullversion=11.0.13+8
+JRE 11 Windows 10 amd64-64-Bit Compressed References 20211022_218 (JIT enabled, AOT enabled)
+OpenJ9   - e1e72c497
+OMR      - 299b6a2d2
+JCL      - 2d83aa3b76 based on jdk-11.0.13+8
+BootLoader constants: OS=win32, ARCH=x86_64, WS=win32, NL=en_IN
+Command-line arguments:  -clean -nl en_IN -configuration D:\CPLEX\workplace\.metadata\workspace_oplrun
+
+!ENTRY ilog.odms.ide.opllang.remote 1 0 2023-11-15 22:52:30.057
+!MESSAGE Run Configuration2 in D:/CPLEX/workplace/dikjstra
+!SESSION 2023-12-04 11:59:24.585 -----------------------------------------------
+eclipse.buildId=unknown
+java.fullversion=11.0.13+8
+JRE 11 Windows 10 amd64-64-Bit Compressed References 20211022_218 (JIT enabled, AOT enabled)
+OpenJ9   - e1e72c497
+OMR      - 299b6a2d2
+JCL      - 2d83aa3b76 based on jdk-11.0.13+8
+BootLoader constants: OS=win32, ARCH=x86_64, WS=win32, NL=en_IN
+Command-line arguments:  -clean -nl en_IN -configuration D:\CPLEX\workplace\.metadata\workspace_oplrun
+
+!ENTRY ilog.odms.ide.opllang.remote 1 0 2023-12-04 11:59:24.587
+!MESSAGE Run Configuration1 in D:/CPLEX/workplace/dikjstra
+!SESSION 2023-12-04 12:00:26.513 -----------------------------------------------
+eclipse.buildId=unknown
+java.fullversion=11.0.13+8
+JRE 11 Windows 10 amd64-64-Bit Compressed References 20211022_218 (JIT enabled, AOT enabled)
+OpenJ9   - e1e72c497
+OMR      - 299b6a2d2
+JCL      - 2d83aa3b76 based on jdk-11.0.13+8
+BootLoader constants: OS=win32, ARCH=x86_64, WS=win32, NL=en_IN
+Command-line arguments:  -clean -nl en_IN -configuration D:\CPLEX\workplace\.metadata\workspace_oplrun
+
+!ENTRY ilog.odms.ide.opllang.remote 1 0 2023-12-04 12:00:26.513
+!MESSAGE Run Configuration1 in D:/CPLEX/workplace/dikjstra
+!SESSION 2023-12-04 12:04:44.298 -----------------------------------------------
+eclipse.buildId=unknown
+java.fullversion=11.0.13+8
+JRE 11 Windows 10 amd64-64-Bit Compressed References 20211022_218 (JIT enabled, AOT enabled)
+OpenJ9   - e1e72c497
+OMR      - 299b6a2d2
+JCL      - 2d83aa3b76 based on jdk-11.0.13+8
+BootLoader constants: OS=win32, ARCH=x86_64, WS=win32, NL=en_IN
+Command-line arguments:  -clean -nl en_IN -configuration D:\CPLEX\workplace\.metadata\workspace_oplrun
+
+!ENTRY ilog.odms.ide.opllang.remote 1 0 2023-12-04 12:04:44.298
+!MESSAGE Run Configuration1 in D:/CPLEX/workplace/dikjstra
+!SESSION 2023-12-04 12:05:09.897 -----------------------------------------------
+eclipse.buildId=unknown
+java.fullversion=11.0.13+8
+JRE 11 Windows 10 amd64-64-Bit Compressed References 20211022_218 (JIT enabled, AOT enabled)
+OpenJ9   - e1e72c497
+OMR      - 299b6a2d2
+JCL      - 2d83aa3b76 based on jdk-11.0.13+8
+BootLoader constants: OS=win32, ARCH=x86_64, WS=win32, NL=en_IN
+Command-line arguments:  -clean -nl en_IN -configuration D:\CPLEX\workplace\.metadata\workspace_oplrun
+
+!ENTRY ilog.odms.ide.opllang.remote 1 0 2023-12-04 12:05:09.898
+!MESSAGE Run Configuration2 in D:/CPLEX/workplace/dikjstra
