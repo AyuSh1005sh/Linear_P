@@ -59,7 +59,7 @@ subject to {
     }
     //time should not overlap
     forall(i in Drones,j in Packages,tm in Time){     
-      (sum(tk in (tm+1..tm+t[i][j]) )x[i][j][tk]==0) && x[i][j][tm]==1;     
+      sum(tk in (tm+1..tm+t[i][j]) )x[i][j][tk]==0 && x[i][j][tm]==1;     
     }  
     // Total time taken by drones
     obj == sum(i in Drones, j in Packages, tm in Time) (tm*x[i][j][tm]+t[i][j]);   
