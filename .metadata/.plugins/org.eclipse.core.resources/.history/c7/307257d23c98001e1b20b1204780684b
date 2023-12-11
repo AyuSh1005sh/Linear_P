@@ -49,9 +49,9 @@ subject to {
     	sum(e in Graph[i]: e.o == 1 && e.id==k) gDecided[i][j][k]*AddressPresent[i][j] == 1;
     	sum(e in Graph[i]: e.d == addr[j] && e.id==k) gDecided[i][j][k]*AddressPresent[i][j] == 1;    
        }    
-    // Delivery Time constraints
+    // Time constraints
     forall(i in Drones, j in Packages, k in edges, tm in Time) {
-        t[i][j] == AddressPresent[i][j] * (sum(e in Graph[i]: e.id==k) (x[i][j][tm]*gDecided[i][j][k] * e.weight) / Speed[i]);
+        t[i][j] >= AddressPresent[i][j] * (sum(e in Graph[i]: e.id==k) (x[i][j][tm]*gDecided[i][j][k] * e.weight) / Speed[i]);
     }
     // Each package is assigned to exactly one drone
     forall(j in Packages) {
@@ -64,12 +64,7 @@ subject to {
     //time should not overlap
     forall(i in Drones,j in Packages,tm in Time){     
       ((sum(tk in (tm+1..tm+t[i][j]) ) x[i][j][tk]==0) && x[i][j][tm]==1)==1;     
-    } 
-    // it should start the delivery from 0
-    forall(i in Drones){
-      sum(j in Packages)x[i][j][0] !=0;
-    } 
-    // Makespan for the drones
-    obj == max(i in Drones, j in Packages, tm in Time)(tm*x[i][j][tm]+t[i][j]);
-          
+    }  
+    // Total time taken by drones
+    obj == sum(i in Drones, j in Packages, tm in Time) (tm*x[i][j][tm]+t[i][j]);   
 }
