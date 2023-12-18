@@ -9,12 +9,12 @@ tuple edge {
 int n = ...; // number of drones
 int m = ...; // number of packages
 int k = ...; // number of edges
-int tm = ...;// time scale
+int t_max = ...;// time scale
 
 range I = 1..n;
 range J = 1..m;
 range E = 1..k;
-range T = 1..tm;
+range T = 1..t_max;
 
 int Dest[J] = ...; // addr node of each package
 {edge} G[I] = ...; // edge list of restricted path
@@ -50,26 +50,26 @@ subject to {
     	sum(e in G[i]: e.d == Dest[j] && e.id==k) Path[i][j][k]*AddressPresent[i][j] == 1;    
        }    
     // Delivery Time constraints
-    forall(i in I, j in J, k in E, tm in T) {
-        t[i][j] == AddressPresent[i][j] * (sum(e in G[i]: e.id==k) (x[i][j][tm]*Path[i][j][k] * e.weight) / Speed[i]);
+    forall(i in I, j in J, k in E, t_max in T) {
+        t[i][j] == AddressPresent[i][j] * (sum(e in G[i]: e.id==k) (x[i][j][t_max]*Path[i][j][k] * e.weight) / Speed[i]);
     }
     // Each package is assigned to exactly one drone
     forall(j in J) {
-        sum(i in I, tm in T) x[i][j][tm] == 1;
+        sum(i in I, t_max in T) x[i][j][t_max] == 1;
     } 
     //weight constraint
-    forall(i in I,j in J, tm in T){
-      C[i]>=x[i][j][tm]*W[j];
+    forall(i in I,j in J, t_max in T){
+      C[i]>=x[i][j][t_max]*W[j];
     }
     //time should not overlap
-    forall(i in I,j in J,tm in T){     
-      ((sum(tk in (tm+1..tm+t[i][j]) ) x[i][j][tk]==0) && x[i][j][tm]==1)==1;     
+    forall(i in I,j in J,t_max in T){     
+      ((sum(tk in (t_max+1..t_max+t[i][j]) ) x[i][j][tk]==0) && x[i][j][t_max]==1)==1;     
     } 
     // it should start the delivery from 0
     forall(i in I){
       sum(j in J)x[i][j][0] !=0;
     } 
     // Makespan for the I
-    obj == max(i in I, j in J, tm in T)(tm*x[i][j][tm]+t[i][j]);
+    obj == max(i in I, j in J, t_max in T)(t_max*x[i][j][t_max]+t[i][j]);
           
 }
