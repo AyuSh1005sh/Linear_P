@@ -16,7 +16,7 @@ range J = 1..m;
 range E=1..k;
 range T=1..tm;
 
-int addr[J] = ...; // addr node of each package
+int Dest[J] = ...; // addr node of each package
 {edge} G[I] = ...; // edge list of restricted path
 {int} V[I]=...;
 float Speed[I] = ...; // Speed of each drone
@@ -42,12 +42,12 @@ minimize obj;
 
 subject to {   
     // Governing inflow and outflow of nodes in each specified path
-    forall(i in I, n in V[i],j in J, k in E: n != 1 && n != addr[j]){
+    forall(i in I, n in V[i],j in J, k in E: n != 1 && n != Dest[j]){
     	sum(e in G[i]: e.o == n && e.id==k) gDecided[i][j][k]*AddressPresent[i][j] == sum(e in G[i]: e.d == n && e.id==k) gDecided[i][j][k]*AddressPresent[i][j];
        }    	
     forall(i in I, n in V[i],j in J, k in E){    
     	sum(e in G[i]: e.o == 1 && e.id==k) gDecided[i][j][k]*AddressPresent[i][j] == 1;
-    	sum(e in G[i]: e.d == addr[j] && e.id==k) gDecided[i][j][k]*AddressPresent[i][j] == 1;    
+    	sum(e in G[i]: e.d == Dest[j] && e.id==k) gDecided[i][j][k]*AddressPresent[i][j] == 1;    
        }    
     // Delivery Time constraints
     forall(i in I, j in J, k in E, tm in T) {
