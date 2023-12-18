@@ -13,16 +13,16 @@ int tm = ...;// time scale
 
 range I = 1..n;
 range J = 1..m;
-range E=1..k;
-range T=1..tm;
+range E = 1..k;
+range T = 1..tm;
 
 int Dest[J] = ...; // addr node of each package
 {edge} G[I] = ...; // edge list of restricted path
-{int} V[I]=...;
+{int} V[I] = ...;
 float Speed[I] = ...; // Speed of each drone
 int AddressPresent[I][J] = ...; // Boolean grid indicating whether address is present in the graph or not
-int W[J]= ...;//weight of the package	
-int C[I]= ...;// load capacity of the drone
+int W[J] = ...;//weight of the package	
+int C[I] = ...;// load capacity of the drone
 
 
 // Define decision variables
