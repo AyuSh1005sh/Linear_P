@@ -18,7 +18,7 @@ range T=1..tm;
 
 int addr[J] = ...; // addr node of each package
 {edge} G[I] = ...; // edge list of restricted path
-{int} nodes[I]=...;
+{int} V[I]=...;
 float Speed[I] = ...; // Speed of each drone
 int AddressPresent[I][J] = ...; // Boolean grid indicating whether address is present in the graph or not
 int W[J]= ...;//weight of the package	
@@ -42,10 +42,10 @@ minimize obj;
 
 subject to {   
     // Governing inflow and outflow of nodes in each specified path
-    forall(i in I, n in nodes[i],j in J, k in E: n != 1 && n != addr[j]){
+    forall(i in I, n in V[i],j in J, k in E: n != 1 && n != addr[j]){
     	sum(e in G[i]: e.o == n && e.id==k) gDecided[i][j][k]*AddressPresent[i][j] == sum(e in G[i]: e.d == n && e.id==k) gDecided[i][j][k]*AddressPresent[i][j];
        }    	
-    forall(i in I, n in nodes[i],j in J, k in E){    
+    forall(i in I, n in V[i],j in J, k in E){    
     	sum(e in G[i]: e.o == 1 && e.id==k) gDecided[i][j][k]*AddressPresent[i][j] == 1;
     	sum(e in G[i]: e.d == addr[j] && e.id==k) gDecided[i][j][k]*AddressPresent[i][j] == 1;    
        }    
