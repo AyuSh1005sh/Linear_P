@@ -9,31 +9,31 @@ tuple edge {
 int n = ...; // number of drones
 int m = ...; // number of packages
 int k = ...; // number of edges
-int tm = ...;// time scale
+int t_max = ...;// time scale
 
-range Drones = 1..n;
-range Packages = 1..m;
-range edges=1..k;
-range Time=1..tm;
+range I = 1..n;
+range J = 1..m;
+range E = 1..k;
+range T = 1..t_max;
 
-int addr[Packages] = ...; // addr node of each package
-{edge} Graph[Drones] = ...; // edge list of restricted path
-{int} nodes[Drones]=...;
-float Speed[Drones] = ...; // Speed of each drone
-int AddressPresent[Drones][Packages] = ...; // Boolean grid indicating whether address is present in the graph or not
-int PackageWeight[Packages]= ...;//weight of the package	
-int DroneCap[Drones]= ...;// load capacity of the drone
+int Dest[J] = ...; // addr node of each package
+{edge} G[I] = ...; // edge list of restricted path
+{int} V[I] = ...;
+float Speed[I] = ...; // Speed of each drone
+int AddressPresent[I][J] = ...; // Boolean grid indicating whether address is present in the graph or not
+int W[J] = ...;//weight of the package	
+int C[I] = ...;// load capacity of the drone
 
 
 // Define decision variables
 // if x[i][j][t]=1 ,means ith drone will take the jth package at time 
 // instant t
-dvar boolean x[Drones][Packages][Time];
+dvar boolean x[I][J][T];
 // t[i][j] will hold the value for delivery time
-dvar int t[Drones][Packages];
-// gDecided[i][j][k]=1, means while delivering the jth package with ith 
+dvar int t[I][J];
+// Path[i][j][k]=1, means while delivering the jth package with ith 
 // drone kth edge will be in the path
-dvar boolean gDecided[Drones][Packages][edges];
+dvar boolean Path[I][J][E];
 
 // Define objective function
 dvar int obj;
@@ -42,34 +42,34 @@ minimize obj;
 
 subject to {   
     // Governing inflow and outflow of nodes in each specified path
-    forall(i in Drones, n in nodes[i],j in Packages, k in edges: n != 1 && n != addr[j]){
-    	sum(e in Graph[i]: e.o == n && e.id==k) gDecided[i][j][k]*AddressPresent[i][j] == sum(e in Graph[i]: e.d == n && e.id==k) gDecided[i][j][k]*AddressPresent[i][j];
+    forall(i in I, n in V[i],j in J, k in E: n != 1 && n != Dest[j]){
+    	sum(e in G[i]: e.o == n && e.id==k) Path[i][j][k]*AddressPresent[i][j] == sum(e in G[i]: e.d == n && e.id==k) Path[i][j][k]*AddressPresent[i][j];
        }    	
-    forall(i in Drones, n in nodes[i],j in Packages, k in edges){    
-    	sum(e in Graph[i]: e.o == 1 && e.id==k) gDecided[i][j][k]*AddressPresent[i][j] == 1;
-    	sum(e in Graph[i]: e.d == addr[j] && e.id==k) gDecided[i][j][k]*AddressPresent[i][j] == 1;    
+    forall(i in I, n in V[i],j in J, k in E){    
+    	sum(e in G[i]: e.o == 1 && e.id==k) Path[i][j][k]*AddressPresent[i][j] == 1;
+    	sum(e in G[i]: e.d == Dest[j] && e.id==k) Path[i][j][k]*AddressPresent[i][j] == 1;    
        }    
     // Delivery Time constraints
-    forall(i in Drones, j in Packages, k in edges, tm in Time) {
-        t[i][j] == AddressPresent[i][j] * (sum(e in Graph[i]: e.id==k) (x[i][j][tm]*gDecided[i][j][k] * e.weight) / Speed[i]);
+    forall(i in I, j in J, k in E, t_max in T) {
+        t[i][j] == AddressPresent[i][j] * (sum(e in G[i]: e.id==k) (x[i][j][t_max]*Path[i][j][k] * e.weight) / Speed[i]);
     }
     // Each package is assigned to exactly one drone
-    forall(j in Packages) {
-        sum(i in Drones, tm in Time) x[i][j][tm] == 1;
+    forall(j in J) {
+        sum(i in I, t_max in T) x[i][j][t_max] == 1;
     } 
     //weight constraint
-    forall(i in Drones,j in Packages, tm in Time){
-      DroneCap[i]>=x[i][j][tm]*PackageWeight[j];
+    forall(i in I,j in J, t_max in T){
+      C[i]>=x[i][j][t_max]*W[j];
     }
     //time should not overlap
-    forall(i in Drones,j in Packages,tm in Time){     
-      ((sum(tk in (tm+1..tm+t[i][j]) ) x[i][j][tk]==0) && x[i][j][tm]==1)==1;     
+    forall(i in I,j in J,t_max in T){     
+      ((sum(tk in (t_max+1..t_max+t[i][j]) ) x[i][j][tk]==0) && x[i][j][t_max]==1)==1;     
     } 
     // it should start the delivery from 0
-    forall(i in Drones){
-      sum(j in Packages)x[i][j][0] !=0;
+    forall(i in I){
+      sum(j in J)x[i][j][0] !=0;
     } 
-    // Makespan for the drones
-    obj == max(i in Drones, j in Packages, tm in Time)(tm*x[i][j][tm]+t[i][j]);
+    // Makespan for the I
+    obj == max(i in I, j in J, t_max in T)(t_max*x[i][j][t_max]+t[i][j]);
           
 }
