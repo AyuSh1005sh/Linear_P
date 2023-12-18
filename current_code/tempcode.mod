@@ -17,12 +17,12 @@ range E=1..k;
 range T=1..tm;
 
 int addr[J] = ...; // addr node of each package
-{edge} Graph[I] = ...; // edge list of restricted path
+{edge} G[I] = ...; // edge list of restricted path
 {int} nodes[I]=...;
 float Speed[I] = ...; // Speed of each drone
 int AddressPresent[I][J] = ...; // Boolean grid indicating whether address is present in the graph or not
-int PackageWeight[J]= ...;//weight of the package	
-int DroneCap[I]= ...;// load capacity of the drone
+int W[J]= ...;//weight of the package	
+int C[I]= ...;// load capacity of the drone
 
 
 // Define decision variables
@@ -43,15 +43,15 @@ minimize obj;
 subject to {   
     // Governing inflow and outflow of nodes in each specified path
     forall(i in I, n in nodes[i],j in J, k in E: n != 1 && n != addr[j]){
-    	sum(e in Graph[i]: e.o == n && e.id==k) gDecided[i][j][k]*AddressPresent[i][j] == sum(e in Graph[i]: e.d == n && e.id==k) gDecided[i][j][k]*AddressPresent[i][j];
+    	sum(e in G[i]: e.o == n && e.id==k) gDecided[i][j][k]*AddressPresent[i][j] == sum(e in G[i]: e.d == n && e.id==k) gDecided[i][j][k]*AddressPresent[i][j];
        }    	
     forall(i in I, n in nodes[i],j in J, k in E){    
-    	sum(e in Graph[i]: e.o == 1 && e.id==k) gDecided[i][j][k]*AddressPresent[i][j] == 1;
-    	sum(e in Graph[i]: e.d == addr[j] && e.id==k) gDecided[i][j][k]*AddressPresent[i][j] == 1;    
+    	sum(e in G[i]: e.o == 1 && e.id==k) gDecided[i][j][k]*AddressPresent[i][j] == 1;
+    	sum(e in G[i]: e.d == addr[j] && e.id==k) gDecided[i][j][k]*AddressPresent[i][j] == 1;    
        }    
     // Delivery Time constraints
     forall(i in I, j in J, k in E, tm in T) {
-        t[i][j] == AddressPresent[i][j] * (sum(e in Graph[i]: e.id==k) (x[i][j][tm]*gDecided[i][j][k] * e.weight) / Speed[i]);
+        t[i][j] == AddressPresent[i][j] * (sum(e in G[i]: e.id==k) (x[i][j][tm]*gDecided[i][j][k] * e.weight) / Speed[i]);
     }
     // Each package is assigned to exactly one drone
     forall(j in J) {
@@ -59,7 +59,7 @@ subject to {
     } 
     //weight constraint
     forall(i in I,j in J, tm in T){
-      DroneCap[i]>=x[i][j][tm]*PackageWeight[j];
+      C[i]>=x[i][j][tm]*W[j];
     }
     //time should not overlap
     forall(i in I,j in J,tm in T){     
