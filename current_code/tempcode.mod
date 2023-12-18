@@ -31,9 +31,9 @@ int C[I]= ...;// load capacity of the drone
 dvar boolean x[I][J][T];
 // t[i][j] will hold the value for delivery time
 dvar int t[I][J];
-// gDecided[i][j][k]=1, means while delivering the jth package with ith 
+// Path[i][j][k]=1, means while delivering the jth package with ith 
 // drone kth edge will be in the path
-dvar boolean gDecided[I][J][E];
+dvar boolean Path[I][J][E];
 
 // Define objective function
 dvar int obj;
@@ -43,15 +43,15 @@ minimize obj;
 subject to {   
     // Governing inflow and outflow of nodes in each specified path
     forall(i in I, n in V[i],j in J, k in E: n != 1 && n != Dest[j]){
-    	sum(e in G[i]: e.o == n && e.id==k) gDecided[i][j][k]*AddressPresent[i][j] == sum(e in G[i]: e.d == n && e.id==k) gDecided[i][j][k]*AddressPresent[i][j];
+    	sum(e in G[i]: e.o == n && e.id==k) Path[i][j][k]*AddressPresent[i][j] == sum(e in G[i]: e.d == n && e.id==k) Path[i][j][k]*AddressPresent[i][j];
        }    	
     forall(i in I, n in V[i],j in J, k in E){    
-    	sum(e in G[i]: e.o == 1 && e.id==k) gDecided[i][j][k]*AddressPresent[i][j] == 1;
-    	sum(e in G[i]: e.d == Dest[j] && e.id==k) gDecided[i][j][k]*AddressPresent[i][j] == 1;    
+    	sum(e in G[i]: e.o == 1 && e.id==k) Path[i][j][k]*AddressPresent[i][j] == 1;
+    	sum(e in G[i]: e.d == Dest[j] && e.id==k) Path[i][j][k]*AddressPresent[i][j] == 1;    
        }    
     // Delivery Time constraints
     forall(i in I, j in J, k in E, tm in T) {
-        t[i][j] == AddressPresent[i][j] * (sum(e in G[i]: e.id==k) (x[i][j][tm]*gDecided[i][j][k] * e.weight) / Speed[i]);
+        t[i][j] == AddressPresent[i][j] * (sum(e in G[i]: e.id==k) (x[i][j][tm]*Path[i][j][k] * e.weight) / Speed[i]);
     }
     // Each package is assigned to exactly one drone
     forall(j in J) {
