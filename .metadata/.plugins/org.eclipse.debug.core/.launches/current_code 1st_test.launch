@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<launchConfiguration type="opl.launchType">
+    <stringAttribute key="opl.debugModel.ATTR_ELEMENT_ID" value="=cu\r\rent_codeR\Run Con\figu\rationsr1st_test"/>
+    <stringAttribute key="opl.debugModel.ATTR_PROJECT" value="current_code"/>
+    <stringAttribute key="opl.debugModel.ATTR_RUN_CONFIG" value="1st_test"/>
+    <listAttribute key="org.eclipse.debug.core.MAPPED_RESOURCE_PATHS">
+        <listEntry value="/current_code"/>
+    </listAttribute>
+    <listAttribute key="org.eclipse.debug.core.MAPPED_RESOURCE_TYPES">
+        <listEntry value="4"/>
+    </listAttribute>
+</launchConfiguration>

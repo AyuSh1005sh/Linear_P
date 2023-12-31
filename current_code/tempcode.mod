@@ -1,9 +1,10 @@
 using CP;
+
 tuple edge {
   	key int id;
     key int o;
     key int d;
-    int weight;
+    key int weight;
 }
 
 int n = ...; // number of drones
@@ -14,12 +15,12 @@ int t_max = ...;// time scale
 range I = 1..n;
 range J = 1..m;
 range E = 1..k;
-range T = 1..t_max;
+range T = 0..t_max;
 
 int Dest[J] = ...; // addr node of each package
 {edge} G[I] = ...; // edge list of restricted path
 {int} V[I] = ...;
-float Speed[I] = ...; // Speed of each drone
+int Speed[I] = ...; // Speed of each drone
 int AddressPresent[I][J] = ...; // Boolean grid indicating whether address is present in the graph or not
 int W[J] = ...;//weight of the package	
 int C[I] = ...;// load capacity of the drone
@@ -30,7 +31,8 @@ int C[I] = ...;// load capacity of the drone
 // instant t
 dvar boolean x[I][J][T];
 // t[i][j] will hold the value for delivery time
-dvar int t[I][J];
+dvar int Tflight[I][J];
+
 // Path[i][j][k]=1, means while delivering the jth package with ith 
 // drone kth edge will be in the path
 dvar boolean Path[I][J][E];
@@ -42,34 +44,63 @@ minimize obj;
 
 subject to {   
     // Governing inflow and outflow of nodes in each specified path
-    forall(i in I, n in V[i],j in J, k in E: n != 1 && n != Dest[j]){
-    	sum(e in G[i]: e.o == n && e.id==k) Path[i][j][k]*AddressPresent[i][j] == sum(e in G[i]: e.d == n && e.id==k) Path[i][j][k]*AddressPresent[i][j];
-       }    	
-    forall(i in I, n in V[i],j in J, k in E){    
-    	sum(e in G[i]: e.o == 1 && e.id==k) Path[i][j][k]*AddressPresent[i][j] == 1;
-    	sum(e in G[i]: e.d == Dest[j] && e.id==k) Path[i][j][k]*AddressPresent[i][j] == 1;    
-       }    
-    // Delivery Time constraints
-    forall(i in I, j in J, k in E, t_max in T) {
-        t[i][j] == AddressPresent[i][j] * (sum(e in G[i]: e.id==k) (x[i][j][t_max]*Path[i][j][k] * e.weight) / Speed[i]);
+    C1:forall(i in I, j in J,n in V[i]: n != 1 && n != Dest[j]){
+      if (AddressPresent[i][j] == 1) {
+    	sum( k in E,e in G[i]:e.o == n && e.id==k) Path[i][j][k] == sum( k in E,e in G[i]: e.d == n && e.id==k) Path[i][j][k];
+       }  }  
+    C2:forall(i in I, j in J) {
+      if (AddressPresent[i][j] == 1) {
+        // This constraint is enforced only when AddressPresent[i][j] is 1
+        (sum(k in E, e in G[i]: e.o == 1 && e.id==k) Path[i][j][k]) == 1;
     }
+    else{
+      (sum(k in E, e in G[i]: e.o == 1 && e.id==k) Path[i][j][k]) == 0;
+    }
+}
+    C3:forall(i in I, j in J) {
+      if(AddressPresent[i][j]==1){
+         (sum( k in E,e in G[i]: e.d == Dest[j] && e.id==k) Path[i][j][k]) == 1;
+       }
+       else{
+      (sum(k in E, e in G[i]: e.d == Dest[j] && e.id==k) Path[i][j][k]) == 0;
+    }
+    } 
+
+    // Delivery Time constraints
+     C4: forall(i in I, j in J , t in T) {
+       Tflight[i][j]>=0;
+       if(AddressPresent[i][j]==1){
+       Tflight[i][j] ==  sum(e in G[i] ) ((Path[i][j][e.id]*e.weight) / Speed[i]);
+       } 
+     }
+     C4b: forall(i in I, j in J) {
+      Tflight[i][j] == max(t in T) Tflight[i][j]*x[i][j][t];
+     }
+
     // Each package is assigned to exactly one drone
-    forall(j in J) {
-        sum(i in I, t_max in T) x[i][j][t_max] == 1;
+    C5:forall(j in J) {
+        sum(i in I, t in T) x[i][j][t] == 1;
     } 
     //weight constraint
-    forall(i in I,j in J, t_max in T){
-      C[i]>=x[i][j][t_max]*W[j];
+    C6:forall(i in I,j in J, t in T){
+      C[i]>=x[i][j][t]*W[j];
     }
-    //time should not overlap
-    forall(i in I,j in J,t_max in T){     
-      ((sum(tk in (t_max+1..t_max+t[i][j]) ) x[i][j][tk]==0) && x[i][j][t_max]==1)==1;     
-    } 
+   // time should not overlap
+//    C8:forall(i in I,j in J,t in T){     
+//      ((sum(tk in (t+1..t+Tflight[i][j]) ) x[i][j][tk]==0) && x[i][j][t]==1)==1;     
+//    } 
+
+C7: forall(i in I, j in J, t1 in T, t2 in T: t1 < t2) {
+  (t1 + Tflight[i][j] <= t2) || (x[i][j][t1] + x[i][j][t2] <= 1);
+}
+
+
+
     // it should start the delivery from 0
-    forall(i in I){
-      sum(j in J)x[i][j][0] !=0;
+    C8:forall(i in I){
+      sum(j in J)x[i][j][0] != 0;
     } 
     // Makespan for the I
-    obj == max(i in I, j in J, t_max in T)(t_max*x[i][j][t_max]+t[i][j]);
+    obj == max(i in I, j in J, t in T)(t*x[i][j][t]+Tflight[i][j]);
           
 }

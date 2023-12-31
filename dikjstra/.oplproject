@@ -4,14 +4,7 @@
     	
     <configs>
         		
-        <config default="true" name="Configuration1" category="opl">
-            			
-            <ref name="dikjstra.mod" type="model">
-			</ref>
-            		
-        </config>
-        		
-        <config default="false" name="Configuration2" category="opl">
+        <config default="true" name="Configuration2" category="opl">
             			
             <ref name="edges.dat" type="data">
 			</ref>

@@ -3,7 +3,18 @@
     <version>1.0</version>
     	
     <configs>
-	</configs>
+        		
+        <config default="true" name="1st_test" category="opl">
+            			
+            <ref name="tempcode.mod" type="model">
+			</ref>
+            			
+            <ref name="data.dat" type="data">
+			</ref>
+            		
+        </config>
+        	
+    </configs>
     	
 
 </project>
