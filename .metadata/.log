@@ -1493,3 +1493,24 @@ java.lang.InterruptedException
 
 !ENTRY ilog.odms.ide.opllang 1 0 2024-01-08 19:55:18.319
 !MESSAGE concert_wrap.IloEndMT
+!SESSION 2024-01-08 19:56:59.034 -----------------------------------------------
+eclipse.buildId=Build Community Edition
+java.fullversion=11.0.13+8
+JRE 11 Windows 10 amd64-64-Bit Compressed References 20211022_218 (JIT enabled, AOT enabled)
+OpenJ9   - e1e72c497
+OMR      - 299b6a2d2
+JCL      - 2d83aa3b76 based on jdk-11.0.13+8
+BootLoader constants: OS=win32, ARCH=x86_64, WS=win32, NL=en_IN
+Command-line arguments:  -os win32 -ws win32 -arch x86_64 -clean
+
+!ENTRY org.eclipse.ui 2 2 2024-01-08 19:58:10.516
+!MESSAGE Invalid preference category path: org.eclipse.wst.html.ui.preferences.web (bundle: org.eclipse.wst.jsdt.ui, page: org.eclipse.wst.jsdt.ui.preferences.JavaBasePreferencePage)
+
+!ENTRY ilog.odms.ide.core 1 0 2024-01-08 19:58:11.263
+!MESSAGE ODM Bundle is OFF
+
+!ENTRY ilog.odms.ide.ui 1 0 2024-01-08 19:58:13.912
+!MESSAGE D:\New folder\cplex\bin\x64_win64\cpxchecklic.exe: Exiting with code 1
+
+!ENTRY ilog.odms.ide.opllang 1 0 2024-01-08 20:00:04.352
+!MESSAGE concert_wrap.IloEndMT

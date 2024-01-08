@@ -65,6 +65,10 @@ subject to {
       (sum( e in G[i]: e.d == Dest[j] ) Path[i][j][e.id]) == 0;
        }
     } 
+//    forall(i in I, j in J){
+//      sum()
+//    }
+
     // Delivery Time constraints
      C4: forall(i in I, j in J , t in T) {
        Tflight[i][j]>=0;
@@ -75,6 +79,7 @@ subject to {
      C4b: forall(i in I, j in J) {
       Tflight[i][j] == max(t in T) Tflight[i][j]*x[i][j][t];
      }
+
     // Each package is assigned to exactly one drone
     C5:forall(j in J) {
         sum(i in I, t in T) x[i][j][t] == 1;
@@ -84,11 +89,20 @@ subject to {
       C[i]>=x[i][j][t]*W[j];
     }
    // time should not overlap
-	C7: forall(i in I, j in J, t1 in T, t2 in T: t1 < t2) {
-  		(t1 + Tflight[i][j] <= t2) || (x[i][j][t1] + x[i][j][t2] <= 1);
-	}
+//    C8:forall(i in I,j in J,t in T){     
+//      ((sum(tk in (t+1..t+Tflight[i][j]) ) x[i][j][tk]==0) && x[i][j][t]==1)==1;     
+//    } 
+
+C7: forall(i in I, j in J, t1 in T, t2 in T: t1 < t2) {
+  (t1 + Tflight[i][j] <= t2) || (x[i][j][t1] + x[i][j][t2] <= 1);
+}
+
+
+
     // it should start the delivery from 0
+   // C8:forall(i in I){
      C8: sum(i in I,j in J)x[i][j][0] != 0;
+    //} 
     // Makespan for the I
     obj == max(i in I, j in J, t in T)(t*x[i][j][t]+Tflight[i][j]);
           
