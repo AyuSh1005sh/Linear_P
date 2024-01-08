@@ -81,9 +81,9 @@ subject to {
       C[i]>=x[i][j][t]*W[j];
     }
    // time should not overlap
-	C7: forall(i in I, j1 in J, j2 in J: j1 != j2, t1 in T, t2 in T:t1<=t2) {
-    (t1 + Tflight[i][j1] <= t2) || (x[i][j1][t1] + x[i][j2][t2] <= 1);
-     }
+	C7: forall(i in I, j in J, t1 in T, t2 in T: t1 < t2) {
+  		(t1 + Tflight[i][j] <= t2) || (x[i][j][t1] + x[i][j][t2] <= 1);
+	}
     // it should start the delivery from 0
      C8: sum(i in I,j in J)x[i][j][0] != 0;
     // Makespan for the I

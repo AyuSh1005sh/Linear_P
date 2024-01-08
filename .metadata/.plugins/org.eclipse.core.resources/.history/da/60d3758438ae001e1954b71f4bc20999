@@ -48,20 +48,23 @@ subject to {
       if (AddressPresent[i][j] == 1) {
     	sum( e in G[i]:e.o == n ) Path[i][j][e.id] == sum(e in G[i]: e.d == n ) Path[i][j][e.id];
        }  }  
-    C2: forall(i in I, j in J, e in E) {
-    if (AddressPresent[i][j] == 1) {
-        (sum(t in T) x[i][j][t] == 1) == (sum( e in G[i]: e.o == 1 ) Path[i][j][e.id] == 1);
-    } else {
-        (sum(t in T) x[i][j][t] == 0) == (sum( e in G[i]: e.o == 1) Path[i][j][e.id] == 0);
+    C2:forall(i in I, j in J) {
+      if (AddressPresent[i][j] == 1) {
+        // This constraint is enforced only when AddressPresent[i][j] is 1
+        (sum( e in G[i]: e.o == 1 ) Path[i][j][e.id]) == sum(t in T)x[i][j][t];
+        }
+      else{
+      (sum( e in G[i]: e.o == 1) Path[i][j][e.id]) == 0;
+        }
     }
-}
-    C3: forall(i in I, j in J, e in E) {
-    if (AddressPresent[i][j] == 1) {
-        (sum(t in T) x[i][j][t] == 1) == (sum( e in G[i]: e.d == Dest[j] ) Path[i][j][e.id] == 1);
-    } else {
-        (sum(t in T) x[i][j][t] == 0) == (sum( e in G[i]: e.d == Dest[j] ) Path[i][j][e.id] == 0);
-    }
-}
+    C3:forall(i in I, j in J) {
+      if(AddressPresent[i][j]==1){
+         (sum( e in G[i]: e.d == Dest[j]) Path[i][j][e.id]) == sum(t in T)x[i][j][t];
+       }
+       else{
+      (sum( e in G[i]: e.d == Dest[j] ) Path[i][j][e.id]) == 0;
+       }
+    } 
     // Delivery Time constraints
      C4: forall(i in I, j in J , t in T) {
        Tflight[i][j]>=0;
@@ -81,9 +84,9 @@ subject to {
       C[i]>=x[i][j][t]*W[j];
     }
    // time should not overlap
-	C7: forall(i in I, j1 in J, j2 in J: j1 != j2, t1 in T, t2 in T:t1<=t2) {
-    (t1 + Tflight[i][j1] <= t2) || (x[i][j1][t1] + x[i][j2][t2] <= 1);
-     }
+	C7: forall(i in I, j in J, t1 in T, t2 in T: t1 < t2) {
+  		(t1 + Tflight[i][j] <= t2) || (x[i][j][t1] + x[i][j][t2] <= 1);
+	}
     // it should start the delivery from 0
      C8: sum(i in I,j in J)x[i][j][0] != 0;
     // Makespan for the I
